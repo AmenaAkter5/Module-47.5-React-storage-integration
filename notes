@@ -1,0 +1,997 @@
+
+==================================================================
+  Video-1 : Module Introduction ES6 Modules simple import, export
+===================================================================
+
+component গুলোকে আলাদা আলাদা folder এ রাখাটাই module
+
+Module বা component এ ভাগ করাটা javaScript এর জিনিস।
+
+একটা larger application এর component গুলোকে আলাদা আলাদা file বা 
+Module এ ভাগ করে রাখাটা সুবিধাজনক। এতে name wise component গুলোকে
+সহজে খুঁজে পাওয়া যায়।
+
+আমরা 'App.js' file এ গেলে দেখি এর সাথে অন্যান্য file connect করার জন্য
+file import ও export করতে হচ্ছে। 
+
+আমরা js file কে export না করলে এই file কে অন্য file এ import 
+করতে পারবো না। তাই এখান থেকে export করতে হবে।
+
+import এ './fileName' এভাবে থাকলে অর্থাৎ './' দিয়ে শুরু হলে বুঝতে হবে
+এক ই folder এ থাকা অন্য একটা file কে এই file এ import করা হচ্ছে।
+
+যেমন - import './App.css';
+
+
+========================================
+
+
+আমরা একটা Cosmetics component বানাবো components folder এ।
+
+
+# cosmetics component
+
+import React from 'react';
+
+const Cosmetics = () => {
+    return (
+        <div>
+            <h1>Welcome to my Cosmetics store</h1>
+        </div>
+    );
+};
+
+export default Cosmetics;
+
+import এ './' না থাকা মানে node modules থেকে import হচ্ছে।
+
+যেমন - import React from 'react';
+
+vs code এ 'react' এর উপর mouse hover করলেই দেখা যাবে একে কোথা
+থেকে import করা হয়েছে। 
+
+
+======================================
+
+Cosmetics component কে 'App.js' file এ use করতে গেলে একে import
+করতে হবে।
+
+# app function
+
+import Cosmetics from './components/Cosmetics/Cosmetics';
+
+function App() {
+  return (
+    <div className="App">
+      <Cosmetics></Cosmetics>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+(আমাদের auto import কাজ করে তাই manually import করতে হয় না
+তবে import টা বুঝা উচিৎ। )
+
+import Cosmetics from './components/Cosmetics/Cosmetics';
+
+আমাদের Cosmetics.js file টা 'App.js' file যেই folder এ আছে 
+ওই একই folder এর components folder এর ভিতর Cosmetics folder
+এ আছে। তাই './' দিয়ে শুরু হয়েছে import file এর path 
+
+যেহেতু এটা js file তাই শেষে .js extension টা used হয় নি। আমরা চাইলে
+দিতে পারবো।
+
+'./components/Cosmetics/Cosmetics' এটার উপর mouse hover করলে এর
+অবস্থান কই তা জানতে পারবো।
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==================================================================
+    Video-2 : ES6 Modules, export default, relative path
+===================================================================
+
+আমাদের auto import, emmet কাজ করছে বলে component folder গুলো import
+export করতে tension করা লাগছে না কারণ আমাদের manually import
+export করতে হচ্ছে না।
+
+তবে component folder ছাড়া common components folder অর্থাৎ যা প্রায় 
+দরকার অনুযায়ী অন্যান্য component এ use করতে হয় এমন file বা component
+import, export টা বুঝাটা জরুরী। বেশিভাগ সময় আমাদের auto import
+দিয়েই কাজ হবে। তবে ক্ষেত্রবিশেষে manually use এর দরকার পড়তে পারে তাই
+আমাদের জেনে রাখা উচিৎ।
+
+Module শুধু component এর জন্য না একটা simple js code ও হতে পারে।
+একাধিক common js code কে একটা module এ রেখে একেকটা code দরকার 
+মত বিভিন্ন জায়গায় use করা যাবে। একে Module এ রাখবোই reuse করার 
+জন্য। অর্থাৎ একে export করে দিয়ে যেই যেই file এ দরকার হবে সেখানে 
+import করে নিতে হবে। 
+
+src folder এ একটা 'utilities' folder খুলবো। যেখানে খুচরা খাচরা code
+রাখবো। 
+
+ধরলাম এখানে calcultaion file এ যোগ, বিয়োগ, গুণ, ভাগ করবো। যা একাধিক
+component এ use করবো। সেখানে normal arrow function ই আমরা create
+করতে পারি।
+
+# utilities -> calculate.js file এ
+
+const add = (first, second) => {
+    return first + second;
+}
+
+তো এটা আমরা Cosmetics component এ use করবো।
+
+Cosmetics component এ একে import করতে হবে ও calculate file থেকে
+একে export করতে হবে।
+
+export করার 2 টা system আছে। 
+
+একটা জায়গায় একটা জিনিস default ভাবে export করা যায়।
+একাধিক জিনিস থাকতে পারে তবে একটা জিনিস default ভাবে export 
+করাটা একটা system
+
+আর একাধিক জিনিস কে export করতে হলে object হিসেবে export করা যায়।
+
+# default export
+export default add;
+
+# import [default function] (Cosmetics component এ import করা হলো)
+import add from './../../utilities/calculate';
+
+[এইটা default ভাবে export করা বুঝা যাচ্ছে]
+
+এখানে '..' মানে এক level উপরে উঠা হচ্ছে। Cosmetics.js আছে Cosmetics
+folder এ। এখান থেকে 1 file উপরে components folder. তার 1 file উপরে 
+src folder. এই src folder এ ই পাওয়া যাবে utilities folder কে।
+utilities থেকে calculate.js file থেকে পাওয়া যাবে 'add' function কে।
+
+Cosmetics -> components -> src -> utilities
+
+এখন calculate.js এ আরেকটা function লিখলাম multiply নামে।
+
+# multiply function
+
+const multiply = (first, second) => {
+    return first * second;
+}
+
+এবার আমরা export করবো object আকারে
+
+# export {object}
+export { add, multiply };
+
+export করার shortcut system আছে।
+
+# object আকারে import (Cosmetics component এ import করা হলো)
+import { add, multiply } from '../../utilities/calculate';
+
+এবার দুইটা function কে একই folder থেকে import করলে এভাবে দেখাবে
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==================================================================
+Video-3 : Create and Load Fake data, json generator, online api
+===================================================================
+
+আমাদের অনেক data হরহামেশাই লেগে যায়। সবসময় আমরা অন্যের data
+use করতে পারবো তার garrenty নেই। তখন আমাদের নিজেদের data make
+করে নিতে হয়। 
+
+কখনো আমরা originally data create করবো। কখনো fake data create
+করে নেবো।
+
+=============================
+
+
+data create করার 3 টা উপায় দেখানো হলো
+
+'1'. array of object এ data লিখে 
+
+সেগুলোকে loop through করে data UI তে দেখানো হবে।
+
+# Cosmetics component
+
+ধরি, এখানে আমার অনেকগুলো cosmetics এর data দেখানো লাগবে।
+directly একটা array তে আমার cosmetics এর নাম, দাম সব দেখাতে পারি
+component এর ভিতর থেকে return এর আগে।
+
+একে return এর div থেকে map করে Cosmetic component এর সাহায্যে প্রতিটা
+component কে display তে দেখাতে পারি।
+
+========================================
+
+
+import React from 'react';
+import Cosmetic from './../Cosmetic/Cosmetic';
+
+const Cosmetics = () => {
+
+    # way-1 : array of object
+    const cosmetics = [
+        { id: 1, name: 'Alta', price: 100 },
+        { id: 2, name: 'Lipstick', price: 200 },
+        { id: 3, name: 'Make up', price: 300 },
+        { id: 4, name: 'Nail polish', price: 400 },
+        { id: 5, name: 'Eye Shadow', price: 500 }
+    ];
+
+    return (
+        <div>
+            <h1>Welcome to my Cosmetics store</h1>
+            {
+                cosmetics.map(cosmetic => <Cosmetic
+                    cosmetic={cosmetic}
+                    key={cosmetic.id}
+                ></Cosmetic>)
+            }
+        </div>
+    );
+};
+
+export default Cosmetics;
+
+
+========================================
+
+# Cosmetic component
+
+import React from 'react';
+
+
+# without destrucring
+
+/* 
+const Cosmetic = (props) => {
+    return (
+        <div>
+            <h2>Buy this: {props.cosmetic.name}</h2>
+            <p>Only for ${props.cosmetic.price}</p>
+        </div>
+    );
+}; 
+*/
+
+
+# with destructuring
+
+const Cosmetic = (props) => {
+
+    const { name, price } = props.cosmetic;
+
+    return (
+        <div>
+            <h2>Buy this: {name}</h2>
+            <p>Only for ${price}</p>
+        </div>
+    );
+};
+
+export default Cosmetic;
+
+
+# App function [এখান থেকে Cosmetics component কে call করে দিতে হবে]
+
+import './App.css';
+import Cosmetics from './components/Cosmetics/Cosmetics';
+
+function App() {
+  return (
+    <div className="App">
+      <Cosmetics></Cosmetics>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+
+
+
+==================================================
+
+
+'2'. jsongenerator দিয়ে data create করে। ওখানে template দেয়া আছে।
+generator এ click করলে ওরা data create করে দিবে।
+
+আমরা data edit করে দিয়ে generator এ click করলে ওরা আমাদের data
+দিয়ে json data generate করে দিবে।
+
+এরকম আরো create করার site আছে।
+
+=> jsongenerator এর template এ এই data edit করে দিলাম:
+
+[
+  '{{repeat(5, 7)}}',
+  {
+    id: '{{objectId()}}',
+    price: '{{integer(20, 600)}}',
+    eyeColor: '{{random("blue", "brown", "green")}}',
+    name: '{{firstName()}} {{surname()}}'
+  }
+]
+
+
+=> আমাদেরকে generate করে data দিলো :
+
+[
+  {
+    "id": "6239b7d78a92275b732efedf",
+    "price": 500,
+    "eyeColor": "brown",
+    "name": "Berg Meyers"
+  },
+  {
+    "id": "6239b7d700fd5e4b09633adb",
+    "price": 76,
+    "eyeColor": "blue",
+    "name": "Jocelyn Giles"
+  },
+  {
+    "id": "6239b7d7fa8b4142b2203853",
+    "price": 206,
+    "eyeColor": "green",
+    "name": "Elsie Yang"
+  },
+  {
+    "id": "6239b7d77fd8fb972fd0c86f",
+    "price": 561,
+    "eyeColor": "green",
+    "name": "Stone Saunders"
+  },
+  {
+    "id": "6239b7d7836e540ac4fe391e",
+    "price": 49,
+    "eyeColor": "green",
+    "name": "Acevedo Russo"
+  }
+]
+
+এইবার আমাদের generated data কে cosmetics array তে set করে দিবো
+
+
+const Cosmetics = () => {
+
+    # way-1 : array of object
+
+    const cosmetics = [
+        {
+            "id": "6239b7d78a92275b732efedf",
+            "price": 500,
+            "eyeColor": "brown",
+            "name": "Berg Meyers"
+        },
+        {
+            "id": "6239b7d700fd5e4b09633adb",
+            "price": 76,
+            "eyeColor": "blue",
+            "name": "Jocelyn Giles"
+        },
+        {
+            "id": "6239b7d7fa8b4142b2203853",
+            "price": 206,
+            "eyeColor": "green",
+            "name": "Elsie Yang"
+        },
+        {
+            "id": "6239b7d77fd8fb972fd0c86f",
+            "price": 561,
+            "eyeColor": "green",
+            "name": "Stone Saunders"
+        },
+        {
+            "id": "6239b7d7836e540ac4fe391e",
+            "price": 49,
+            "eyeColor": "green",
+            "name": "Acevedo Russo"
+        }
+    ]
+
+    return (
+        <div>
+            <h1>Welcome to my Cosmetics store</h1>
+            {
+                cosmetics.map(cosmetic => <Cosmetic
+                    cosmetic={cosmetic}
+                    key={cosmetic.id}
+                ></Cosmetic>)
+            }
+        </div>
+    );
+};
+
+
+=======================================
+
+
+আমরা এভাবে না করে data টা কে fetch করে এনে বসাতে পারি। এই
+data কে public folder এ data.json নামের file create করে তাতে রাখবো।
+
+const Cosmetics = () => {
+
+    # way-2: fetch data from our created 'data.json' file from public folder
+
+    const [cosmetics, setCosmetics] = useState([]);
+
+    useEffect(() => {
+        fetch('data.json')
+            .then(res => res.json())
+            .then(data => setCosmetics(data))
+    }, [])
+
+    return (
+        <div>
+            <h1>Welcome to my Cosmetics store</h1>
+            {
+                cosmetics.map(cosmetic => <Cosmetic
+                    cosmetic={cosmetic}
+                    key={cosmetic.id}
+                ></Cosmetic>)
+            }
+        </div>
+    );
+};
+
+
+
+
+
+
+
+
+
+==================================================
+
+'3'. online hosting of our data
+
+এছাড়া আমরা আমাদের data কে online এ host করে সেই data link
+fetch করে দেখাতে পারি।
+
+any api বা mock api তে data host করবো।
+
+তবে বেশি data দেখানো যাবে না। বেশি দেখাতে গেলে টাকা লাগবে।
+
+https://mockapi.io/
+https://beeceptor.com/
+https://any-api.com/
+
+
+# mock api থেকে generate করা link
+https://6239c647bbe20c3f66c9bebd.mockapi.io/cosmetics
+
+
+const Cosmetics = () => {
+
+    # way-3: fetch data from our 'data' which is hosted in online
+
+    const [cosmetics, setCosmetics] = useState([]);
+
+    useEffect(() => {
+        fetch('https://6239c647bbe20c3f66c9bebd.mockapi.io/cosmetics')
+            .then(res => res.json())
+            .then(data => setCosmetics(data))
+    }, [])
+
+    return (
+        <div>
+            <h1>Welcome to my Cosmetics store</h1>
+            {
+                cosmetics.map(cosmetic => <Cosmetic
+                    cosmetic={cosmetic}
+                    key={cosmetic.id}
+                ></Cosmetic>)
+            }
+        </div>
+    );
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==================================================================
+  Video-4 : How to Create Event handler with parameters
+==================================================================
+
+Event handler parameter সহ করার চেষ্টা করবো
+
+# btn event function with parameter in JSX
+<button onClick={addToCart(id)}>Add to cart</button>
+
+# btn event handler
+const addToCart = (id) => {
+  console.log('item added', id);
+}
+
+html থেকে onclick এ Event handler function এ parameter pass
+করা সহজ কিন্তু JS এর JSX থেকে parameter pass করাটা difficult
+কারণ JS এ তা function call হয়ে যায় [addToCart()] এবং code 
+button click এর আগেই run হয়ে যায়। তাই একে আমাদের technique 
+এর সাথে handle করতে হবে এখানে।
+
+
+==========================================
+
+
+# btn
+<button onClick={addToCartWithParam}>Add to cart</button>
+
+# handle btn event with parameter
+const addToCartWithParam = () => addToCart(id);
+
+# btn event handler
+const addToCart = (id) => {
+  console.log('item added', id);
+}
+
+তো button এ তো parameter সহ function দিতে পারবো না তাই একটা
+empty function [addToCartWithParam] create করে সেই function এর 
+ভিতর থেকে addToCart function কে parameter সহ pass করে দিবো। 
+এতে empty function call হয়ে addToCart() function executed হবে।
+একে বলে event handler কে wrapping করা কারণ অন্য একটা function
+দিয়ে আমরা event handler কে wrapping করে দিচ্ছি।
+
+
+==============================================
+
+
+একে এখন সংক্ষেপে btn এ বসিয়ে দিতে পারি। empty arrow function
+দিয়ে addToCart কে call করে দিতে পারি।
+
+<button onClick={addToCartWithParam}>Add to cart</button>
+
+# shortcut এ function বসিয়ে দেয়া হলো
+<button onClick={() => addToCart(id)}>Shortcut</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==================================================================
+  Video-5 : Intro to Local storage to store data just one item
+==================================================================
+
+Local storage এ data store করে রাখা দেখানো হবে। এই গুলো সাধারণত
+ecommerce site এ বেশি লাগে যেখানে user shopping cart এ কিছু add
+করলে সেই data stored হয়ে থেকে যায়।
+
+button এ click করলে Local storage এ add হবে product টা তাই addToCart
+থেকে localstorage এ setitem করে দিবো।
+
+# btn event handler
+  const addToCart = (id) => {
+    localStorage.setItem(id, 1);
+  }
+
+
+
+===========================================
+
+
+আমরা এই localStorage কে একটা common জায়গা থেকে use করতে পারি। তাই
+এর data কে আলাদা একটা folder এ রাখবো। তাই আমরা একে utilities
+এ রাখবো। utilities এ cart-storage নামক file খুলে code লিখবো।
+
+# use local storage to manage cart data
+
+# local storage কে database হিসেবে use করছি।
+# যাকে add করবো তার id কে parameter হিসেবে নিবো
+
+const addToLocalStorage = id => {
+    localStorage.setItem(id, 1);
+}
+
+# export
+export { addToLocalStorage };
+
+
+
+
+addToLocalStorage কে call করে দিবো Cosmetic.js এর ভিতর থেকে
+
+# btn event handler
+  const addToCart = (id) => {
+    addToLocalStorage(id);
+  }
+
+
+
+=======================================
+
+
+# storage এ কোন item আছে কিনা তা আমরা check করতে পারি:
+
+console এ গিয়ে localStorage.getItem('name') --> enter
+
+এভাবে name দিয়ে search করলে তার value পাওয়া যাবে। আর না থাকলে
+value 'null' হবে।
+
+
+localStorage এ item থাকলেও পরবর্তীতে add হয়ে value বাড়াচ্ছে না। আমরা 
+এই problem টা কে handle করবো।
+
+তাই localStorage এ ওই id টার quantity কী তা আগে check করবো।
+quantity যত আছে তার সাথে প্রতিবার click এ 1 করে বাড়বে।
+
+আর আগে থেকে cart এ না থাকলে value 1 হবে।
+
+string এর আগে + দিলে তা numeric এ convert হবে
+বা parseInt করা যাবে।
+
++ '1' = 1 [numeric 1]
+parseInt('1') = 1 [numeric 1]
+
+
+
+const addToLocalStorage = id => {
+
+    const quantity = localStorage.getItem(id);
+    if (quantity) {
+        const newQuantity = parseInt(quantity) + 1;
+        localStorage.setItem(id, newQuantity);
+    }
+    else {
+        localStorage.setItem(id, 1);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==================================================================
+  Video-6 : Store multiple data in an Object with local storage
+==================================================================
+
+organized way তে local storage এ data রাখা দেখানো হবে।
+
+local storage এ অনেক data থাকতে পারে। শুধু id দেখে না ও চেনা যেতে
+পারে এটা কীসের data। তাই কিছু data কে object আকারে রাখা যাবে এখানে
+যাতে সহজে data কে identify করা যায় যে এটা cart এর data
+
+আমরা local storage এর shopping cart এ data রাখবো object আকারে।
+কিন্তু তাকে রাখতে হবে string এ। অর্থাৎ object কে stringify করে নিতে হবে।
+
+localStorage.setItem('shopping-cart', JSON.stringify(shoppingCart));
+
+
+
+এখন shoppingCart টা আগে থেকে add আছে কিনা তা আমরা check করবো।
+যদি যেহেতু object টা stringify হয়ে আছে তাই তাকে JSON.parse() করে
+নিতে হবে।
+
+
+তো shopping cart এ আমাদের add করা id টা আগে থেকে থাকলে তার সাথে 1
+যোগ হবে আর না থাকলে new value 1 নিবে।
+
+
+const addToLocalStorage = id => {
+
+    let shoppingCart;
+
+    # get the shoppingCart from local storage
+    # [shopping cart টা আছে কিনা check করছি]
+
+    const storedCart = localStorage.getItem('shopping-cart');
+
+    if (storedCart) {
+        shoppingCart = JSON.parse(storedCart);
+    }
+    else {
+        shoppingCart = {}
+    }
+
+    # add quantity
+    const quantity = shoppingCart[id];
+
+    if (quantity) {
+        const newQuantity = quantity + 1;
+        shoppingCart[id] = newQuantity;
+    }
+    else {
+        shoppingCart[id] = 1;
+    }
+    localStorage.setItem('shopping-cart', JSON.stringify(shoppingCart));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==================================================================
+Video-7 : Remove data to the local storage and delete shopping cart
+==================================================================
+
+আমরা এখন local storage থেকে data remove করা দেখবো
+
+একটা button add করবো Cosmetic.js এ সেই button এর onClick
+এ একটা event handler add করবো।
+
+# button
+<button onClick={() => removeFromCart(id)}>Remove</button>
+
+# remove button handler
+  const removeFromCart = id => {
+    removeFromStorage(id);
+  }
+
+
+
+
+'cart-storage.js' file এ : 
+
+removeFromStorage function এর ভিতরে প্রথমে cart টা আছে কিনা 
+check করবো। cart না থাকলে তো remove এর প্রশ্নই উঠে না।
+আমাদের add storage function এ ও এই check টা দরকার হয়েছিলো।
+এই check করার কাজটাকে আমরা অন্য function এ রেখে দুই জায়গা
+থেকে call করতে পারি। আমরা আপাতত repeat করবো এখন।
+
+storedCart কে check করে এর ভেতর id কে loop দিয়ে check করবো 
+storage object কে parse করে নিয়ে। যদি id থাকে তো একে delete 
+করে দিয়ে বাকিটুকু object কে আবার set করে দিতে হবে storage cart 
+এ stringify করে।
+
+setItem না করে দিলে removed দেখাবে না।
+বাকি data গুলোকে setItem দিয়ে set করে দিতেই হবে।
+
+
+# remove from cart
+
+const removeFromStorage = id => {
+
+    # shopping cart টা আছে কিনা check করবো
+    const storedCart = localStorage.getItem('shopping-cart');
+
+    if (storedCart) {
+        const shoppingCart = JSON.parse(storedCart);
+        if (id in shoppingCart) {
+            delete shoppingCart[id];
+            localStorage.setItem('shopping-cart', JSON.stringify(shoppingCart));
+        }
+    }
+}
+
+
+তো shoppingCart কে delete করে দিতে চাইলে delete function কে call করে
+remove করে দেয়া যাবে।
+
+# যদি shopping cart remove করতে চাই local storage বা database থেকে
+
+const deleteLocalStorageCart = () => {
+    localStorage.removeItem('shopping-cart');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==================================================================
+Video-8 : Module Summary and simple intro to array reduce
+==================================================================
+
+আমরা প্রথমেই ES6 এর module দেখছি অর্থাৎ file গুলোকে আলাদা আলাদা
+folder এ ভাগ করে করে এক file এর সাথে আরেক file এর connection
+ঘটানোর জন্য module গুলোকে export, import করা দেখেছি।
+
+export করার সময় file গুলোকে different নামেও change করে দেয়া যাবে।
+এটা দেখানো হবে।
+
+
+
+
+fake data load করার try করছি
+
+নিজেরা data array তে রেখে। বা আলাদা json file এ data রেখে সেটাকে
+fetch করেছি আবার online এ data host করে সেই data fetch দিয়ে load
+করেছি।
+
+
+JSX থেকে event handler parameter সহ দিতে হলে কীভাবে দিতে হবে তা
+দেখেছি। 
+parameter না থাকলে সরাসরি function নাম বসিয়ে দিলেই হয়।
+
+
+# ==================================
+
+
+Cosmetics.js থেকে আমাদের total price দেখানোর দরকার হতে পারে।
+
+# array reduce
+
+একটা array তে অনেকগুলো number থাকলে তাদের total বের করতে পারি 
+loop করে বা array reduce করে। reduce একটা fancy system
+
+# array
+const numbers = [20, 24, 235, 65, 89];
+
+# array sum process [for loop]
+let sum = 0;
+for (let i = 0; i >= numbers.length; i++) {
+    sum = sum + numbers[i];
+}
+
+** javaScript array reduce --> google search (MDN)
+
+reduce 2 টা জিনিস নিবে। একটা function ও একটা initial value
+function কে আলাদা লিখে function টা কে call করা যাবে reduce
+এর 1st parameter হিসেবে বা function ও এখানে লেখা যাবে।
+আমরা এখন আলাদা করেই দেখলাম।
+
+reduce arrayর একটা method. এটা দিয়ে arrayর element গুলোর উপর
+calcultaion চালানো যায়।
+
+function এ previous value হলো আগের element যোগের value
+ও current হলো new value
+
+# reduce
+
+const sumReducer = (previous, current) => previous + current;
+const total = numbers.reduce(sumReducer, 0);
+
+# array of object : reduce
+
+const items = [
+    { id: 1, name: 'Alta', price: 100 },
+    { id: 2, name: 'Lipstick', price: 200 },
+    { id: 3, name: 'Make up', price: 300 },
+    { id: 4, name: 'Nail polish', price: 400 },
+    { id: 5, name: 'Eye Shadow', price: 500 }
+];
+
+const itemsSumReducer = (previous, current) => previous + current.price;
+const itemsTotal = items.reduce(itemsSumReducer, 0);
+
+
+# এবার আমরা Cosmetics এর total price টা বের করে ফেলবো
+
+const getTotalPrice = cosmetics => {
+    const reducer = (previous, current) => previous + current.price;
+    const total = cosmetics.reduce(reducer, 0);
+    return total;
+}
+
+# shortcut name export system [shorcut name ই import করবে অন্য file]
+export { add, multiply, substract, divide, getTotalPrice as getTotal };
+
+
+
+# getTotal কে Cosmetics.js file এ import করবো
+
+total টা কে এখানে use করা হলো।
+array reduce method দেখা হলো।
+
+
+
+const Cosmetics = () => {
+
+    # way-2: fetch data from our 'data.json' file
+
+    const [cosmetics, setCosmetics] = useState([]);
+
+    useEffect(() => {
+        fetch('data.json')
+            .then(res => res.json())
+            .then(data => setCosmetics(data))
+    }, []);
+
+    const total = getTotal(cosmetics);
+
+    return (
+        <div>
+            <h1>Welcome to my Cosmetics store</h1>
+            <h3>Money Needed: {total}</h3>
+            {
+                cosmetics.map(cosmetic => <Cosmetic
+                    cosmetic={cosmetic}
+                    key={cosmetic.id}
+                ></Cosmetic>)
+            }
+        </div>
+    );
+};
+
+https://ecologi.com/
+
